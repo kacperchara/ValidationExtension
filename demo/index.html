@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ValidationExtension Plugin created by Kacper Chara</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/validation-extension.css">
+
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <script src="js/jquery.validate.additional-methods.js"></script>
+    <script src="js/jquery.selectric.min.js"></script>
+    <script src="js/icheck.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('code').each(function() {
+                $(this).text($(this).html());
+            });
+        });
+    </script>
+
+    <script src="js/validation-extension.js"></script>
+
+</head>
+<body>
+
+    <section class="main-section">
+        <div class="container">
+            <h1 class="main-headings">ValidationExtension - Extension for jQuery Validation Plugin</h1>
+            <p>Walidacja formularzy obsługująca pluginy dla CUSTOMOWYCH elementów:</p>
+            <ul>
+                <li>iCheck - v1.0.2</li>
+                <li>Selectric - v1.9.6</li>
+            </ul>
+            <div class="col-sm-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a href="#required">Pola wymagane</a></li>
+                    <li role="presentation"><a href="#custom-inputs">Pola wymagane / Customowe: checkbox, radio, select</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="headings">Instalacja Pluginu</h2>
+                        <p>Do poprawnego funkcjonowania walidacji wymagane jest dołączenie do projektu następujących plików:</p>
+                        <ul>
+                            <li>jquery-1.12.3.min.js</li>
+                            <li>jquery.validate.js</li>
+                            <li>jquery.validate.additional-methods.js</li>
+                            <li><strong>validation-extension.js</strong></li>
+                        </ul>
+                        <p>Każdy formularz, który ma zostać zwalidowany musi posiadać atrybuty:</p>
+                        <ul>
+                            <li>class="validation-plugin"</li>
+                            <li>name="form1" <- dowolny</li>
+                            <li>id="form1" <- dowolny</li>
+                            <li>novalidate="novalidate"</li>
+                        </ul>
+                        <p>Klasy które dodawane są do elementów, kiedy NIE WALIDUJĄ się:</p>
+                        <ul>
+                            <li>Zwykły: input, textarea, radio, checkbox, select -> klasa .error</li>
+                            <li>Customowy: radio -> <strong>.error-radio</strong>, checkbox -> <strong>.error-checkbox</strong>, select -> <strong>.error-select</strong></li>
+                        </ul>
+                        <p>Struktura katalogów:</p>
+                        <ul>
+                            <li>demo/ - demo adaptera</li>
+                            <li>dist/ - tutaj znajduję się główny plik rozszerzający plugin validate (<strong>validation-extension.js</strong>), w katalogu dostępna również wersja zminifikowana (<strong>validation-extension.min.js</strong>)</li>
+                        </ul>
+                        <p>Tryb debugowania, możemy włączyć w pliku pluginu ustawiając wartość parametru "debugMode" na <b>true</b>.</p>
+                        <div class="highlight">
+                            <pre><code>debugMode : false // true or false</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="required" class="row">
+                    <div class="col-xs-12">
+                        <h3>Pola wymagane</h3>
+                        <p>Pole musi: być wypełnione (input, textarea), mieć wybraną opcję (select), musi być zaznaczone (checkbox, radio)</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>required="required"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form1" id="form1" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input1"><span class="asterix">* </span>Input wymagany</label>
+                                            <input type="text" name="input1" required="required" id="input1">
+                                        </div>
+                                        <div class="highlight">
+                                            <pre><code><input type="text" name="" required="required" id=""></code></pre>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="checkbox1"><span class="asterix">* </span>Checkbox wymagany</label>
+                                            <input type="checkbox" name="checkbox1" required="required" id="checkbox1">
+                                        </div>
+                                        <div class="highlight">
+                                            <pre><code><input type="checkbox" name="" required="required" id=""></code></pre>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="select1"><span class="asterix">* </span>Select wymagany</label>
+                                            <select id="select1" name="select1" required="required">
+                                                <option value="">Select...</option>
+                                                <option value="1">Option 1</option>
+                                                <option value="2">Option 2</option>
+                                                <option value="3">Option 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="highlight">
+                                            <pre>
+                                                <code>
+                                                    <select name="" required="required" id="">
+                                                        <option value="">Select...</option>
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                        <option value="3">Option 3</option>
+                                                    </select>
+                                                </code>
+                                            </pre>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="custom-inputs" class="row">
+                    <div class="col-xs-12">
+                        <h3>Pole wymagane / Customowe inputy</h3>
+                        <p>Customowe inputy <strong>checkbox</strong> muszą:</p>
+                        <ul>
+                            <li>być zwrapowane w div.input-checkbox</li>
+                            <li>posiadać klasę na inpucie .custom-checkbox</li>
+                        </ul>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>required="required"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form2" id="form2" novalidate="novalidate">
+                                        <div class="input-checkbox">
+                                            <label for="custom-checkbox1"><span class="asterix">* </span>Checkbox wymagany</label>
+                                            <input type="checkbox" class="custom-checkbox" name="custom-checkbox1" required="required" id="custom-checkbox1">
+                                        </div>
+                                        <div class="highlight">
+                                            <pre>
+                                                <code>
+                                                    <div class="input-checkbox">
+                                                        <label for=""></label>
+                                                        <input type="checkbox" class="custom-checkbox" name="" required="required" id="">
+                                                    </div>
+                                                </code>
+                                            </pre>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>Customowe inputy <strong>radio</strong> muszą:</p>
+                        <ul>
+                            <li>być zwrapowane w div.input-radio</li>
+                            <li>posiadać klasę na inpucie .custom-radio</li>
+                            <li>cała grupa inputów z jednakowym name="" musi być zwrapowana w: div.input-radio-group</li>
+                        </ul>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>required="required"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form3" id="form3" novalidate="novalidate">
+                                        <div class="input-radio-group">
+                                            <div class="input-radio">
+                                                <label for="custom-radio1"><span class="asterix">* </span>Radio wymagany</label>
+                                                <input type="radio" class="custom-radio" name="custom-radio" required="required" id="custom-radio1">
+                                            </div>
+                                            <div class="input-radio">
+                                                <input type="radio" class="custom-radio" name="custom-radio" required="required" id="custom-radio2">
+                                            </div>
+                                        </div>
+                                        <div class="highlight">
+                                            <pre>
+                                                <code>
+                                                    <div class="input-radio-group">
+                                                        <div class="input-radio">
+                                                            <label for=""></label>
+                                                            <input type="radio" class="custom-radio" name="custom-radio" required="required" id="">
+                                                        </div>
+                                                        <div class="input-radio">
+                                                            <input type="radio" class="custom-radio" name="custom-radio" required="required" id="">
+                                                        </div>
+                                                    </div>
+                                                </code>
+                                            </pre>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>Customowe <strong>selecty</strong> muszą:</p>
+                        <ul>
+                            <li>być zwrapowane w div.input-select</li>
+                            <li>posiadać klasę na selekcie .custom-select</li>
+                        </ul>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>required="required"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form4" id="form4" novalidate="novalidate">
+                                        <div class="input-select">
+                                            <select class="custom-select" id="select2" name="select2" required="required">
+                                                <option value="">Select...</option>
+                                                <option value="1">Option 1</option>
+                                                <option value="2">Option 2</option>
+                                                <option value="3">Option 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="highlight">
+                                            <pre>
+                                                <code>
+                                                    <div class="input-select">
+                                                        <select class="custom-select" id="" name="" required="required">
+                                                            <option value="">Select...</option>
+                                                            <option value="1">Option 1</option>
+                                                            <option value="2">Option 2</option>
+                                                            <option value="3">Option 3</option>
+                                                        </select>
+                                                    </div>
+                                                </code>
+                                            </pre>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
