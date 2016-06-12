@@ -11,17 +11,18 @@
     <script src="js/jquery.validate.additional-methods.js"></script>
     <script src="js/jquery.selectric.min.js"></script>
     <script src="js/icheck.min.js"></script>
+    <script src="js/jquery.mask.min.js"></script>
 
     <script>
         $(document).ready(function() {
             $('code').each(function() {
                 $(this).text($(this).html());
             });
+            $('input[data-type=postcode]').mask("00-000");
         });
     </script>
 
     <script src="js/validation-extension.js"></script>
-
 </head>
 <body>
 
@@ -37,6 +38,19 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation"><a href="#required">Pola wymagane</a></li>
                     <li role="presentation"><a href="#custom-inputs">Pola wymagane / Customowe: checkbox, radio, select</a></li>
+                    <li role="presentation"><a href="#alnum">Wprowadzanie liczb i znaków alfabetu</a></li>
+                    <li role="presentation"><a href="#alpha">Wprowadzanie tylko liter</a></li>
+                    <li role="presentation"><a href="#postcode">Walidacja pola kodu pocztowego</a></li>
+                    <li role="presentation"><a href="#custom-message-input-required">Walidacja pola wymaganego z customowym komunikatem</a></li>
+                    <li role="presentation"><a href="#email">Walidacja pola adresu email</a></li>
+                    <li role="presentation"><a href="#pesel">Walidacja numeru PESEL</a></li>
+                    <li role="presentation"><a href="#nip">Walidacja numeru NIP</a></li>
+                    <li role="presentation"><a href="#regon">Walidacja numeru REGON</a></li>
+                    <li role="presentation"><a href="#digit">Wprowadzanie tylko liczb jako wartości</a></li>
+                    <li role="presentation"><a href="#strlen-max">Ograniczenie maksymalnej liczby znaków</a></li>
+                    <li role="presentation"><a href="#strlen-min">Ograniczenie minimalnej liczby znaków</a></li>
+                    <li role="presentation"><a href="#value-range">Wprowadzenie przedziału liczbowego dla wartości</a></li>
+                    <li role="presentation"><a href="#data-regex">Walidacja pola według wzorca (Regex)</a></li>
                 </ul>
             </div>
             <div class="col-sm-9">
@@ -57,6 +71,7 @@
                             <li>id="form1" <- dowolny</li>
                             <li>novalidate="novalidate"</li>
                         </ul>
+                        <p><strong>Ważne</strong>: w przypadku customowych inputów (checkbox, radio, select) elementy te powinny mieć zawsze display:block, a ukrywane powinny być przez np. opacity:0</p>
                         <p>Klasy które dodawane są do elementów, kiedy NIE WALIDUJĄ się:</p>
                         <ul>
                             <li>Zwykły: input, textarea, radio, checkbox, select -> klasa .error</li>
@@ -252,6 +267,301 @@
                             </div>
                         </div>
 
+                    </div>
+                </div>
+
+                <div id="alnum" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-type<small> alnum</small></h2>
+                        <p></p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-type="alnum"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form5" id="form5" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input2"><span class="asterix">* </span>Znaki alfabetu i liczby</label>
+                                            <input type="text" name="input2" required="required" data-type="alnum" id="input2">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="alpha" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-type<small> alpha</small></h2>
+                        <p>Pozwala na wprowadzenie przez użytkownika wyłącznie liter.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-type="alpha"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form6" id="form6" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input3"><span class="asterix">* </span>Tylko litery</label>
+                                            <input type="text" name="input3" required="required" data-type="alpha" id="input3">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="postcode" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-type<small> postcode</small></h2>
+                        <p>Pozwala na wprowadzenie kodu pocztowego w formacie XX-XXX przez użytkownika.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-type="postcode"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+                                    <form class="validation-plugin" name="form7" id="form7" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input4"><span class="asterix">* </span>Kod pocztowy</label>
+                                            <input type="text" name="input4" required="required" data-type="postcode" id="input4">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="custom-message-input-required" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-msg-req</h2>
+                        <p>Ustawia treść dla komunikatu błędu zdefiniowaną w atrybucie data.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-msg-req="To jest customowy komunikat dla pola wymaganego."</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+                                    <form class="validation-plugin" name="form8" id="form8" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input5"><span class="asterix">* </span>Kod pocztowy</label>
+                                            <input type="text" name="input5" required="required" data-msg-req="To jest customowy komunikat dla pola wymaganego." id="input5">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="email" class="row">
+                    <div class="col-xs-12">
+                        <h2>email</h2>
+                        <p>Sprawdzanie poprawności pola adresu e-mail.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>type="email"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form9" id="form9" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input6"><span class="asterix">* </span>Email</label>
+                                            <input type="email" name="input6" required="required" id="input6">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pesel" class="row">
+                    <div class="col-xs-12">
+                        <h2>pesel</h2>
+                        <p>Sprawdzanie za pomocą sumy kontrolnej poprawności PESEL-u.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>name="pesel"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form10" id="form10" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input7"><span class="asterix">* </span>PESEL</label>
+                                            <input type="text" name="pesel" required="required" id="input7">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nip" class="row">
+                    <div class="col-xs-12">
+                        <h2>nip</h2>
+                        <p>Sprawdzanie za pomocą sumy kontrolnej poprawności NIP-u.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>name="nip"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form11" id="form11" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input8"><span class="asterix">* </span>NIP</label>
+                                            <input type="text" name="nip" required="required" id="input8">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="regon" class="row">
+                    <div class="col-xs-12">
+                        <h2>regon</h2>
+                        <p>Sprawdzanie za pomocą sumy kontrolnej poprawności REGON-u.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>name="regon"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form12" id="form12" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input9"><span class="asterix">* </span>REGON</label>
+                                            <input type="text" name="regon" required="required" id="input9">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="digit" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-type<small> digit</small></h2>
+                        <p>Pozwala na wprowadzenie wyłącznie liczb.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-type="digit"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form13" id="form13" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input10"><span class="asterix">* </span>Wiek</label>
+                                            <input type="text" name="input10" required="required" maxlength="3" data-type="digit" id="input10">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="strlen-max" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-strlen-max<small></small></h2>
+                        <p>Wprowadza ograniczenie w postaci maksymalnej długości wartości pola.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-strlen-max="(liczba)"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form14" id="form14" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input11"><span class="asterix">* </span>Opis (max. 10 znaków)</label>
+                                            <input type="text" data-strlen-max="10" name="input11" required="required" id="input11">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="strlen-min" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-strlen-min<small></small></h2>
+                        <p>Wprowadza ograniczenie w postaci minimalnej długości wartości pola.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-strlen-min="(liczba)"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form15" id="form15" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input12"><span class="asterix">* </span>Opis (min. 10 znaków)</label>
+                                            <input type="text" data-strlen-min="10" name="input12" required="required" id="input12">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="value-range" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-value-min, data-value-max<small></small></h2>
+                        <p>Wprowadza ograniczenie w postaci przedziału wartości pola.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-value-min="(liczba)" data-value-max="(liczba)"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form16" id="form16" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input13"><span class="asterix">* </span>Liczba</label>
+                                            <input type="text" data-type="digit" data-value-min="10" data-value-max="20" name="input13" required="required" id="input13">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="data-regex" class="row">
+                    <div class="col-xs-12">
+                        <h2>data-regex</h2>
+                        <p>Sprawdzanie poprawności pola według podanego wzorca w atrybucie data-regex.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Przykład użycia atrybutu <strong>data-regex="(regex)"</strong></div>
+                            <div class="panel-body">
+                                <div class="bs-example">
+
+                                    <form class="validation-plugin" name="form17" id="form17" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label for="input14"><span class="asterix">* </span>Imię</label>
+                                            <input type="text" data-regex="^[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż-]" name="input14" required="required" id="input14">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Wyślij formularz</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

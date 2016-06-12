@@ -87,3 +87,9 @@ input, select, textarea {
     background-size: cover;
   }
 }
+
+/* Important style for Selectric validation */
+.selectric-hide-select select {
+  display: block;
+  opacity: 0;
+}

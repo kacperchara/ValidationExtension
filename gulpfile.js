@@ -71,6 +71,7 @@ gulp.task('js', function () {
             CONFIG.src.js + 'vendor/jquery.validate.additional-methods.js',
             CONFIG.src.js + 'vendor/jquery.selectric.min.js',
             CONFIG.src.js + 'vendor/icheck.min.js',
+            CONFIG.src.js + 'vendor/jquery.mask.min.js',
             CONFIG.src.js + 'validation-extension.js'
         ])
         .pipe(gulp.dest(CONFIG.destination.demo.js.dir))

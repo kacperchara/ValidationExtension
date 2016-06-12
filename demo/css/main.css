@@ -7442,3 +7442,7 @@ body {
 label {
   display: block;
 }
+
+input.error, textarea.error {
+  border: 1px solid #f15e50;
+}

@@ -28,3 +28,9 @@ body {
 label {
   display: block;
 }
+
+input, textarea {
+  &.error {
+    border: 1px solid $errors;
+  }
+}
